@@ -3,7 +3,7 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger, AstrBotConfig
 import time
 
-@register("deal-with-aubergine", "HakimYu", "一个简单的 禁言 插件", "1.0.0")
+@register("deal-with-aubergine", "HakimYu", "一个简单的 禁言 插件", "1.0.1")
 class MyPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
