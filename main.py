@@ -59,7 +59,7 @@ class MyPlugin(Star):
             yield event.plain_result(f"{user_id} 已经在禁言列表中")
             return
         self.config.user_ids.append(user_id)
-        self.config.save()
+        self.config.save_config()
         yield event.plain_result(f"已添加 {user_id} 到禁言列表")
         return
     @filter.permission_type(filter.PermissionType.ADMIN)
@@ -69,7 +69,7 @@ class MyPlugin(Star):
             yield event.plain_result(f"{user_id} 不在禁言列表中")
             return
         self.config.user_ids.remove(user_id)
-        self.config.save()
+        self.config.save_config()
         yield event.plain_result(f"已移除 {user_id} 从禁言列表")
         return
     @filter.permission_type(filter.PermissionType.ADMIN)
@@ -79,7 +79,7 @@ class MyPlugin(Star):
             yield event.plain_result(f"{group_id} 已经在禁言列表中")
             return
         self.config.group_ids.append(group_id)
-        self.config.save()
+        self.config.save_config()
         yield event.plain_result(f"已添加 {group_id} 到禁言列表")
         return
     @filter.permission_type(filter.PermissionType.ADMIN)
@@ -89,6 +89,6 @@ class MyPlugin(Star):
             yield event.plain_result(f"{group_id} 不在禁言列表中")
             return
         self.config.group_ids.remove(group_id)
-        self.config.save()
+        self.config.save_config()
         yield event.plain_result(f"已移除 {group_id} 从禁言列表")
         return
