@@ -45,7 +45,7 @@ class MyPlugin(Star):
                 self.user_last_message_times[user_id] = 0
                 logger.info(f"ret: {ret}")
                 logger.info(f"发送过快，禁言: {event.get_sender_id()} 5分钟")
-                yield event.plain_result("塔菲制裁你喵！")
+                yield event.plain_result(" 塔菲制裁你喵！")
             return
 
         # 更新用户的消息计数和时间
@@ -56,39 +56,39 @@ class MyPlugin(Star):
     @filter.command("add-deal-with-person")
     async def add_deal_with_person(self, event: AstrMessageEvent, user_id: str):
         if user_id in self.config.user_ids:
-            yield event.plain_result(f"{user_id} 已经在禁言列表中")
+            yield event.plain_result(f" {user_id} 已经在禁言列表中")
             return
         self.config.user_ids.append(user_id)
         self.config.save_config()
-        yield event.plain_result(f"已添加 {user_id} 到禁言列表")
+        yield event.plain_result(f" 已添加 {user_id} 到禁言列表")
         return
     @filter.permission_type(filter.PermissionType.ADMIN)
     @filter.command("remove-deal-with-person")
     async def remove_deal_with_person(self, event: AstrMessageEvent, user_id: str):
         if user_id not in self.config.user_ids:
-            yield event.plain_result(f"{user_id} 不在禁言列表中")
+            yield event.plain_result(f" {user_id} 不在禁言列表中")
             return
         self.config.user_ids.remove(user_id)
         self.config.save_config()
-        yield event.plain_result(f"已移除 {user_id} 从禁言列表")
+        yield event.plain_result(f" 已从禁言列表移除 {user_id}")
         return
     @filter.permission_type(filter.PermissionType.ADMIN)
     @filter.command("add-deal-with-group")
     async def add_deal_with_group(self, event: AstrMessageEvent, group_id: str):
         if group_id in self.config.group_ids:
-            yield event.plain_result(f"{group_id} 已经在禁言列表中")
+            yield event.plain_result(f" {group_id} 已经在禁言列表中")
             return
         self.config.group_ids.append(group_id)
         self.config.save_config()
-        yield event.plain_result(f"已添加 {group_id} 到禁言列表")
+        yield event.plain_result(f" 已添加 {group_id} 到禁言列表")
         return
     @filter.permission_type(filter.PermissionType.ADMIN)
     @filter.command("remove-deal-with-group")
     async def remove_deal_with_group(self, event: AstrMessageEvent, group_id: str):
         if group_id not in self.config.group_ids:
-            yield event.plain_result(f"{group_id} 不在禁言列表中")
+            yield event.plain_result(f" {group_id} 不在禁言列表中")
             return
         self.config.group_ids.remove(group_id)
         self.config.save_config()
-        yield event.plain_result(f"已移除 {group_id} 从禁言列表")
+        yield event.plain_result(f" 已从禁言列表移除 {group_id}")
         return
