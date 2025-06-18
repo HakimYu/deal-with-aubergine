@@ -1,0 +1,24 @@
+{
+    "group_ids": {
+      "type": "list",
+      "description": "需要监听的群号列表",
+      "hint": "在此处添加需要监听的群号，可以添加多个群号。当这些群中的指定用户发送消息过快时，将会被禁言。",
+      "default": [],
+      "items": {
+        "type": "string",
+        "description": "群号",
+        "hint": "请输入完整的群号"
+      }
+    },
+    "user_ids": {
+      "type": "list",
+      "description": "需要监听的用户ID列表",
+      "hint": "在此处添加需要监听的用户ID，可以添加多个用户。这些用户如果在指定群中发送消息过快，将会被禁言。",
+      "default": [],
+      "items": {
+        "type": "string",
+        "description": "用户ID",
+        "hint": "请输入完整的用户ID"
+      }
+    }
+  }
