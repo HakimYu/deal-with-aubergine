@@ -1,4 +1,4 @@
-from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
+from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger, AstrBotConfig
 import time
@@ -38,11 +38,6 @@ class MyPlugin(Star):
         user_id = event.get_sender_id()
         current_time = time.time()
 
-        # 检查消息长度
-        message_content = event.get_message_content()
-        if len(message_content) > self.config.message_length_limit:
-            await self.ban_user(event, f"消息长度超过限制（{len(message_content)}/{self.config.message_length_limit}）")
-            return
 
         # 获取用户的消息计数和最后消息时间，如果不存在则初始化为0
         message_count = self.user_message_counts.get(user_id, 0)
@@ -136,15 +131,4 @@ class MyPlugin(Star):
         self.config.ban_duration = duration
         self.config.save_config()
         yield event.plain_result(f"已设置禁言时长为 {duration} 秒")
-        return
-
-    @filter.permission_type(filter.PermissionType.ADMIN)
-    @filter.command("set-message-length-limit")
-    async def set_message_length_limit(self, event: AstrMessageEvent, limit: int):
-        if limit < 1:
-            yield event.plain_result("消息长度限制必须大于0")
-            return
-        self.config.message_length_limit = limit
-        self.config.save_config()
-        yield event.plain_result(f"已设置消息长度限制为 {limit} 字符")
         return

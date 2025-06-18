@@ -1,48 +1,42 @@
 {
-    "group_ids": {
-      "type": "list",
-      "description": "需要监听的群号列表",
-      "hint": "在此处添加需要监听的群号，可以添加多个群号。当这些群中的指定用户发送消息过快时，将会被禁言。",
-      "default": [],
-      "items": {
-        "type": "string",
-        "description": "群号",
-        "hint": "请输入完整的群号"
-      }
-    },
-    "user_ids": {
-      "type": "list",
-      "description": "需要监听的用户ID列表",
-      "hint": "在此处添加需要监听的用户ID，可以添加多个用户。这些用户如果在指定群中发送消息过快，将会被禁言。",
-      "default": [],
-      "items": {
-        "type": "string",
-        "description": "用户ID",
-        "hint": "请输入完整的用户ID"
-      }
-    },
-    "message_limit": {
-      "type": "int",
-      "description": "消息数量限制",
-      "hint": "在指定时间内允许发送的最大消息数量",
-      "default": 10
-    },
-    "time_limit": {
-      "type": "int",
-      "description": "时间限制（秒）",
-      "hint": "判断消息发送频率的时间窗口，单位为秒",
-      "default": 60
-    },
-    "ban_duration": {
-      "type": "int",
-      "description": "禁言时长（秒）",
-      "hint": "触发限制后的禁言时长，单位为秒",
-      "default": 300
-    },
-    "message_length_limit": {
-      "type": "int",
-      "description": "消息长度限制",
-      "hint": "单条消息的最大长度，超过此长度将被禁言",
-      "default": 300
+  "group_ids": {
+    "type": "list",
+    "description": "需要监听的群号列表",
+    "hint": "在此处添加需要监听的群号，可以添加多个群号。当这些群中的指定用户发送消息过快时，将会被禁言。",
+    "default": [],
+    "items": {
+      "type": "string",
+      "description": "群号",
+      "hint": "请输入完整的群号"
     }
+  },
+  "user_ids": {
+    "type": "list",
+    "description": "需要监听的用户ID列表",
+    "hint": "在此处添加需要监听的用户ID，可以添加多个用户。这些用户如果在指定群中发送消息过快，将会被禁言。",
+    "default": [],
+    "items": {
+      "type": "string",
+      "description": "用户ID",
+      "hint": "请输入完整的用户ID"
+    }
+  },
+  "message_limit": {
+    "type": "int",
+    "description": "消息数量限制",
+    "hint": "在指定时间内允许发送的最大消息数量",
+    "default": 10
+  },
+  "time_limit": {
+    "type": "int",
+    "description": "时间限制（秒）",
+    "hint": "判断消息发送频率的时间窗口，单位为秒",
+    "default": 60
+  },
+  "ban_duration": {
+    "type": "int",
+    "description": "禁言时长（秒）",
+    "hint": "触发限制后的禁言时长，单位为秒",
+    "default": 300
   }
+}
