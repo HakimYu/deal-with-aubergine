@@ -27,8 +27,7 @@ class MyPlugin(Star):
             ret = await client.api.call_action('set_group_ban', **payloads)
             logger.info(f"禁言原因: {reason}, 用户: {event.get_sender_id()}, 时长: {self.config.ban_duration}秒")
             yield event.plain_result(f"塔菲制裁你喵！{reason}，禁言{self.config.ban_duration}秒")
-            return ret
-        return None
+        return
 
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
     async def on_group_message(self, event: AstrMessageEvent):
