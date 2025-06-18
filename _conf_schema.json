@@ -38,5 +38,11 @@
       "description": "禁言时长（秒）",
       "hint": "触发限制后的禁言时长，单位为秒",
       "default": 300
+    },
+    "message_length_limit": {
+      "type": "int",
+      "description": "消息长度限制",
+      "hint": "单条消息的最大长度，超过此长度将被禁言",
+      "default": 300
     }
   }

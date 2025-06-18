@@ -3,7 +3,7 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger, AstrBotConfig
 import time
 
-@register("deal-with-aubergine", "HakimYu", "一个简单的 禁言 插件", "1.0.2")
+@register("deal-with-aubergine", "HakimYu", "一个简单的 禁言 插件", "1.0.3")
 class MyPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
@@ -13,15 +13,37 @@ class MyPlugin(Star):
         # 使用字典记录每个用户的最后消息时间
         self.user_last_message_times = {}
 
+    async def ban_user(self, event: AstrMessageEvent, reason: str):
+        """禁言用户的通用方法"""
+        if event.get_platform_name() == "aiocqhttp":
+            from astrbot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent
+            assert isinstance(event, AiocqhttpMessageEvent)
+            client = event.bot
+            payloads = {
+                "group_id": int(event.get_group_id()),
+                "user_id": int(event.get_sender_id()),
+                "duration": self.config.ban_duration
+            }
+            ret = await client.api.call_action('set_group_ban', **payloads)
+            logger.info(f"禁言原因: {reason}, 用户: {event.get_sender_id()}, 时长: {self.config.ban_duration}秒")
+            yield event.plain_result(f"塔菲制裁你喵！{reason}，禁言{self.config.ban_duration}秒")
+            return ret
+        return None
+
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
     async def on_group_message(self, event: AstrMessageEvent):
         # 判断消息是否来自指定群 指定 人
-        # logger.info(f"消息来自群: {event.get_group_id()}, 消息来自用户: {event.get_sender_id()}")
         if event.get_group_id() not in self.config.group_ids or event.get_sender_id() not in self.config.user_ids:
             return
 
         user_id = event.get_sender_id()
         current_time = time.time()
+
+        # 检查消息长度
+        message_content = event.get_message_content()
+        if len(message_content) > self.config.message_length_limit:
+            await self.ban_user(event, f"消息长度超过限制（{len(message_content)}/{self.config.message_length_limit}）")
+            return
 
         # 获取用户的消息计数和最后消息时间，如果不存在则初始化为0
         message_count = self.user_message_counts.get(user_id, 0)
@@ -29,23 +51,10 @@ class MyPlugin(Star):
 
         # 判断消息是否发送频率过高
         if message_count > self.config.message_limit and current_time - last_message_time < self.config.time_limit:
-            if event.get_platform_name() == "aiocqhttp":
-                # 使用 aiocqhttp 原生 API 进行禁言
-                from astrbot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent
-                assert isinstance(event, AiocqhttpMessageEvent)
-                client = event.bot
-                payloads = {
-                    "group_id": int(event.get_group_id()),
-                    "user_id": int(event.get_sender_id()),
-                    "duration": self.config.ban_duration  # 使用配置的禁言时长
-                }
-                ret = await client.api.call_action('set_group_ban', **payloads)
-                # 重置该用户的消息计数和时间
-                self.user_message_counts[user_id] = 0
-                self.user_last_message_times[user_id] = 0
-                logger.info(f"ret: {ret}")
-                logger.info(f"发送过快，禁言: {event.get_sender_id()} {self.config.ban_duration}秒")
-                yield event.plain_result(f"塔菲制裁你喵！禁言{self.config.ban_duration}秒")
+            await self.ban_user(event, f"消息发送过快（{message_count}条/{self.config.time_limit}秒）")
+            # 重置该用户的消息计数和时间
+            self.user_message_counts[user_id] = 0
+            self.user_last_message_times[user_id] = 0
             return
 
         # 更新用户的消息计数和时间
@@ -128,4 +137,15 @@ class MyPlugin(Star):
         self.config.ban_duration = duration
         self.config.save_config()
         yield event.plain_result(f"已设置禁言时长为 {duration} 秒")
+        return
+
+    @filter.permission_type(filter.PermissionType.ADMIN)
+    @filter.command("set-message-length-limit")
+    async def set_message_length_limit(self, event: AstrMessageEvent, limit: int):
+        if limit < 1:
+            yield event.plain_result("消息长度限制必须大于0")
+            return
+        self.config.message_length_limit = limit
+        self.config.save_config()
+        yield event.plain_result(f"已设置消息长度限制为 {limit} 字符")
         return
