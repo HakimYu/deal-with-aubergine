@@ -20,5 +20,23 @@
         "description": "用户ID",
         "hint": "请输入完整的用户ID"
       }
+    },
+    "message_limit": {
+      "type": "int",
+      "description": "消息数量限制",
+      "hint": "在指定时间内允许发送的最大消息数量",
+      "default": 10
+    },
+    "time_limit": {
+      "type": "int",
+      "description": "时间限制（秒）",
+      "hint": "判断消息发送频率的时间窗口，单位为秒",
+      "default": 60
+    },
+    "ban_duration": {
+      "type": "int",
+      "description": "禁言时长（秒）",
+      "hint": "触发限制后的禁言时长，单位为秒",
+      "default": 300
     }
   }

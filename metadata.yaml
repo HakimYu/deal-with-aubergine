@@ -1,5 +1,5 @@
 name: deal-with-aubergine # 这是你的插件的唯一识别名。
 desc: 这是 AstrBot 的默认插件，支持关键词回复。 # 插件简短描述
-version: v1.0.1 # 插件版本号
+version: v1.0.2 # 插件版本号
 author: HakimYu # 作者
 repo: https://github.com/HakimYu/deal-with-aubergine # 插件的仓库地址
