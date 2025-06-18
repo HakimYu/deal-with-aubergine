@@ -16,7 +16,7 @@ class MyPlugin(Star):
     @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
     async def on_group_message(self, event: AstrMessageEvent):
         # 判断消息是否来自指定群 指定 人
-        logger.info(f"消息来自群: {event.get_group_id()}, 消息来自用户: {event.get_sender_id()}")
+        # logger.info(f"消息来自群: {event.get_group_id()}, 消息来自用户: {event.get_sender_id()}")
         if event.get_group_id() not in self.config.group_ids or event.get_sender_id() not in self.config.user_ids:
             return
 
