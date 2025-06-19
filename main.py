@@ -3,8 +3,8 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger, AstrBotConfig
 import time
 
-@register("deal-with-aubergine", "HakimYu", "针对指定群和指定人，限制消息频率和消息长度，进行禁言", "1.0.3")
-class MyPlugin(Star):
+@register("throttle", "HakimYu", "针对指定群和指定人，限制消息频率和消息长度，进行禁言", "1.0.4")
+class AstrbotPluginThrottle(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
         super().__init__(context)
         self.config = config
